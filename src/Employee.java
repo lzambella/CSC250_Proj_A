@@ -3,16 +3,15 @@
  *  Only contains information for logging into the system
  */
 
-import com.sun.crypto.provider.PBKDF2HmacSHA1Factory;
-
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.io.Serializable;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 
-public class Employee implements User {
+public class Employee implements Serializable {
     private String username;
     private byte[] hashedPassword;
     private byte[] salt = new byte[32];
@@ -46,7 +45,7 @@ public class Employee implements User {
         Generate a salt to use for our hash
         then hash the plaintext password
          */
-        KeySpec s = new PBEKeySpec(input.toCharArray(),salt, 65536, 128);
+        KeySpec s = new PBEKeySpec(input.toCharArray(),salt, 65536, 1024);
         SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHMacSHA1");
         return f.generateSecret(s).getEncoded(); // Store the salted hash as our password
     }
@@ -58,7 +57,7 @@ public class Employee implements User {
      */
     public boolean authenticate (String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] b = hashFunction(password);
-        return b.equals(hashedPassword);
+        return Arrays.equals(hashedPassword,b);
     }
 
     /**
@@ -69,5 +68,9 @@ public class Employee implements User {
      */
     public void updatePassword(String newPWord) throws InvalidKeySpecException, NoSuchAlgorithmException {
         hashedPassword = hashFunction(newPWord);
+    }
+
+    public String getUserName() {
+        return username;
     }
 }

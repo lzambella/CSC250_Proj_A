@@ -1,4 +1,6 @@
-public class Administrator extends Manager {
+import java.io.Serializable;
+
+public class Administrator extends Manager implements Serializable {
     public Administrator(String uName, String pWord) throws Exception{
         super(uName, pWord);
     }

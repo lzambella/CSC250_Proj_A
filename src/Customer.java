@@ -12,6 +12,55 @@ public class Customer implements java.io.Serializable {
     private String city;
     private String state;
     private String zipCode;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAptNumber() {
+        return aptNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public int getLoanAmount() {
+        return loanAmount;
+    }
+
     private String accountNumber;
     private String branch;
     private int loanAmount;
@@ -44,5 +93,13 @@ public class Customer implements java.io.Serializable {
         this.accountNumber = accountNumber;
         this.branch = branch;
         this.loanAmount = loanAmount;
+    }
+
+    /**
+     * Returns a string array for datatable in mainWindow
+     * @return
+     */
+    public String[] dataToArray() {
+        return new String[] {firstName, lastName, phoneNumber, email, address, aptNumber, city, state, zipCode, accountNumber, branch, String.format(".2%d",loanAmount)};
     }
 }

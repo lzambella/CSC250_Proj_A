@@ -3,10 +3,11 @@
  * A manager is a user with administrative functionality
  */
 
+import java.io.Serializable;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 
-public class Manager extends Employee {
+public class Manager extends Employee implements Serializable {
 
     // A manager is the same as a user
     public Manager(String uName, String pWord) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -19,7 +20,7 @@ public class Manager extends Employee {
 
 
     /**
-     * instantiate and returns a new User class
+     * instantiate and returns a new Employee class
      * @param uName
      * @param pWord
      * @return
