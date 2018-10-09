@@ -57,15 +57,15 @@ public class Customer implements java.io.Serializable {
         return branch;
     }
 
-    public int getLoanAmount() {
+    public double getLoanAmount() {
         return loanAmount;
     }
 
     private String accountNumber;
     private String branch;
-    private int loanAmount;
+    private double loanAmount;
 
-    public Customer(String firstName, String lastName, String phoneNumber, String email, String aptNumber, String address, String city, String state, String zipCode, String accountNumber, String branch, int loanAmount) {
+    public Customer(String firstName, String lastName, String phoneNumber, String email, String aptNumber, String address, String city, String state, String zipCode, String accountNumber, String branch, double loanAmount) {
         this.firstName = firstName.isEmpty() ? "default" : firstName;
         this.lastName = lastName.isEmpty() ? "default" : lastName;
         this.phoneNumber = phoneNumber.isEmpty() ? "000-000-0000" : phoneNumber;
@@ -80,7 +80,7 @@ public class Customer implements java.io.Serializable {
         this.loanAmount = loanAmount;
     }
 
-    public void updateDetails(String firstName, String lastName, String phoneNumber, String email, String aptNumber, String address, String city, String state, String zipCode, String accountNumber, String branch, int loanAmount) {
+    public void updateDetails(String firstName, String lastName, String phoneNumber, String email, String aptNumber, String address, String city, String state, String zipCode, String accountNumber, String branch, double loanAmount) {
         this.firstName = firstName.isEmpty() ? "default" : firstName;
         this.lastName = lastName.isEmpty() ? "default" : lastName;
         this.phoneNumber = phoneNumber.isEmpty() ? "000-000-0000" : phoneNumber;
@@ -100,6 +100,6 @@ public class Customer implements java.io.Serializable {
      * @return
      */
     public String[] dataToArray() {
-        return new String[] {firstName, lastName, phoneNumber, email, address, aptNumber, city, state, zipCode, accountNumber, branch, String.format(".2%d",loanAmount)};
+        return new String[] {firstName, lastName, phoneNumber, email, address, aptNumber, city, state, zipCode, accountNumber, branch, String.format("%.2f",loanAmount)};
     }
 }

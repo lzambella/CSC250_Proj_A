@@ -9,6 +9,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Main {
     //TODO: Have the submit button show the main window
@@ -28,13 +29,14 @@ public class Main {
     private static String emergencyPassword = "toor";
 
     private static boolean debugMode = false;
-
+    enum accountType {employee, manager, administrator};
     /**
      * Display user authentication first before anything
      */
     private static void initAuthentication() {
         JFrame frame = new JFrame("Login");
         frame.setMinimumSize(new Dimension(300,100));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JTextField uName = new JTextField();
         JPasswordField pWord = new JPasswordField();
@@ -56,6 +58,9 @@ public class Main {
                     if (b) {
                         authenticatedUser = temp;
                         System.out.printf("Successfully logged in as %s", temp.getUserName());
+                        MainWindow gui = new MainWindow();
+                        frame.setVisible(false);
+
                     } else System.out.println("Wrong username/password");
                 } catch (Exception z) {
                     System.err.println(z);
@@ -80,13 +85,15 @@ public class Main {
      */
     private static void bootstrap() {
         JFrame frame = new JFrame("Create new account");
-        frame.setLayout(new GridLayout(4,2));
+        frame.setLayout(new GridLayout(5,2));
 
         frame.setMinimumSize(new Dimension(300,100));
 
         JTextField field1 = new JTextField();
         JPasswordField pWord = new JPasswordField();
         JPasswordField pWordConfirm = new JPasswordField();
+
+        JComboBox accTyp = new JComboBox<>(accountType.values());
 
         JLabel label1 = new JLabel("Username:");
         JLabel label2 = new JLabel("Password;");
@@ -98,7 +105,22 @@ public class Main {
             // If password match then create and save the new account
             try {
                 if (Arrays.equals(pWord.getPassword(), pWordConfirm.getPassword())) {
-                    Employee temp = new Administrator(field1.getText(), Arrays.toString(pWord.getPassword()));
+                    Employee temp;
+                    switch (accTyp.getSelectedIndex()) { // hack because combobox selection cant be set to enum
+                        case 2: // Administrator
+                            temp = new Administrator(field1.getText(), Arrays.toString(pWord.getPassword()));
+                            break;
+                        case 1: // manager
+                            temp = new Manager(field1.getText(), Arrays.toString(pWord.getPassword()));
+                            break;
+                        case 0: // employee
+                            temp = new Employee(field1.getText(), Arrays.toString(pWord.getPassword()));
+                            break;
+                        default:
+                            temp = new Employee("error", "password");
+                            break;
+                    }
+
                     // Check if the user already exists
                     if (employees.stream().anyMatch(p -> p.getUserName().equals(temp.getUserName()))) {
                         System.out.println("User already exists, ignoring");
@@ -126,6 +148,7 @@ public class Main {
         frame.add(label3);
         frame.add(pWordConfirm);
 
+        frame.add(accTyp);
         frame.add(button);
 
         frame.setVisible(true);
